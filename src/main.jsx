@@ -2,9 +2,17 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
-import { createBrowserRouter, Link, RouterProvider } from "react-router-dom";
-import Article from "./Article.jsx";
-import ErrorPage from "./ErrorPage.jsx";
+import {
+  createBrowserRouter,
+  Link,
+  RouterProvider,
+  Outlet,
+} from "react-router-dom";
+import Article from "./composants/Article.jsx";
+import ErrorPage from "./composants/ErrorPage.jsx";
+import Contact from "./composants/Contact.jsx";
+import Emploi from "./composants/Emploi.jsx";
+import Blog from "./composants/Blog.jsx";
 
 const route = createBrowserRouter([
   {
@@ -19,17 +27,34 @@ const route = createBrowserRouter([
         <h1>A propos</h1>
         <p>Je suis un paragraphe</p>
         <Link to="/">Home</Link>
+        <div
+          style={{
+            display: "flex",
+            gap: "1rem",
+          }}
+        >
+          <Link to="/apropos/contact">Contact</Link>
+          <Link to="/apropos/emploi">Emploi</Link>
+        </div>
+        <div>
+          <Outlet />
+        </div>
       </>
     ),
+    children: [
+      {
+        path: "/apropos/contact",
+        element: <Contact />,
+      },
+      {
+        path: "/apropos/emploi",
+        element: <Emploi />,
+      },
+    ],
   },
   {
     path: "/blog",
-    element: (
-      <>
-        <h2>Liste des articles</h2>
-        <Link to="/blog/200">Article 11</Link>
-      </>
-    ),
+    element: <Blog />,
   },
   {
     path: "/blog/:id",
